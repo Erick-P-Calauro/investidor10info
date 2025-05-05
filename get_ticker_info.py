@@ -53,10 +53,10 @@ def get_ticker_info(ticker):
         name = indicator.find(name="span").contents[0]
         value = indicator.find(name="div").find("span").contents[0]
 
-        name = str(name).lower()
+        name = str(name).lower().strip()
         value = str(value).strip()
 
-        indicators_values.update({name.lower(): convert(value)})
+        indicators_values.update({name: convert(value)})
 
     # Filling dictionary with info about ticker
     for info in html_info_about_cells:
@@ -79,7 +79,7 @@ def get_ticker_info(ticker):
         # END IF
 
         # value = convert(value)
-        indicators_values.update({name.lower(): convert(value)})
+        indicators_values.update({name.lower().strip(): convert(value)})
     
     driver.quit()
 
