@@ -5,18 +5,20 @@ import time
 
 def get_ticker_info(ticker):
     
+    DELAY = 10 # Seconds
+
     # Chrome Settings
     options = Options()
     options.add_argument("--incognito")
     options.add_argument("--headless=true")
 
-    time.sleep(5)
+    time.sleep(DELAY)
 
     # Getting investidor10 page
     driver = webdriver.Chrome(options=options)
     driver.get("https://investidor10.com.br/acoes/"+ticker)
 
-    time.sleep(5)
+    time.sleep(DELAY)
 
     # HTMLdoc
     soup = BeautifulSoup(driver.page_source, "html.parser")
@@ -49,8 +51,8 @@ def get_ticker_info(ticker):
 
         name = str(name).lower()
         value = str(value).strip()
-        value = value[value.find(">"):]
-        value = value[:value.find("<")+1]
+        value = value[value.find(">")+1:]
+        value = value[:value.find("<")]
 
         if(value != ""):
             indicators_values.update({name: value})

@@ -1,0 +1,1 @@
+Script python que busca extrair dados referentes à ações e fundos imobiliários do site investidor10.
