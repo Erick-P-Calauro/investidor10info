@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 import time
+from conversion import convert
 
 def get_ticker_info(ticker):
     
@@ -65,7 +66,7 @@ def get_ticker_info(ticker):
         # END IF
 
         # value = convert(value)
-        indicators_values.update({name: value})
+        indicators_values.update({name: convert(value)})
     
     driver.quit()
 
