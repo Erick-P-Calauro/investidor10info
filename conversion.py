@@ -2,7 +2,7 @@ def convert(info):
     info = str(info)
 
     if info[0].isalpha():
-        return info
+        return info.lower()
     
     menor = False
 

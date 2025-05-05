@@ -35,6 +35,19 @@ def get_ticker_info(ticker):
     # Dictionary to store values
     indicators_values = {}
 
+    # Getting and parsing html price element
+    html_price = soup.find(attrs={"class":"_card cotacao"})
+    name = "cotação"
+    value = str(html_price.find(attrs={"class", "value"}))
+    value = value[value.find("$")+2:value[1:].find("<")+1]
+    indicators_values.update({name: convert(value)})
+
+    # Getting and parsing html dy element
+    html_dy = soup.find(attrs={"class": "_card dy"})
+    name = "dy"
+    value = str(html_dy.find_all(name="span")[1].contents[0])
+    indicators_values.update({name: convert(value)})
+
     # Filling dictionary with indicators
     for indicator in html_indicators_cells:
         name = indicator.find(name="span").contents[0]
@@ -43,7 +56,7 @@ def get_ticker_info(ticker):
         name = str(name).lower()
         value = str(value).strip()
 
-        indicators_values.update({name: value})
+        indicators_values.update({name.lower(): convert(value)})
 
     # Filling dictionary with info about ticker
     for info in html_info_about_cells:
@@ -66,7 +79,7 @@ def get_ticker_info(ticker):
         # END IF
 
         # value = convert(value)
-        indicators_values.update({name: convert(value)})
+        indicators_values.update({name.lower(): convert(value)})
     
     driver.quit()
 
