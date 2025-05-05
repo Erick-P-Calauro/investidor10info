@@ -46,16 +46,26 @@ def get_ticker_info(ticker):
 
     # Filling dictionary with info about ticker
     for info in html_info_about_cells:
-        name = info.find(attrs={"class":"title"}).contents[0]
-        value = info.find(attrs={"class":"detail-value"})
+        name = str(info.find(attrs={"class":"title"}).contents[0]) # It is a string value
+        value = info.find(attrs={"class":"value"}) # Can be a <span> with divs or a span with a text value
 
-        name = str(name).lower()
-        value = str(value).strip()
-        value = value[value.find(">")+1:]
-        value = value[:value.find("<")]
+        if(value.find(attrs={"class":"detail-value"}) == None): # value == <span class="value">""</span>
+            value =  str(value.contents[0]).strip()
+        else: # value == <span class="value"><div>""</div></span>
+            value = str(value.find(attrs={"class":"detail-value"}).contents[0])
+            
+            startIndex = value.find(">") + 1
+            endIndex = value[1:].find("<")
+            moneyIndex= value.find("$")
 
-        if(value != ""):
-            indicators_values.update({name: value})
+            if(moneyIndex != -1):
+                startIndex = moneyIndex + 2
+
+            value = value[startIndex:endIndex].strip()
+        # END IF
+
+        # value = convert(value)
+        indicators_values.update({name: value})
     
     driver.quit()
 
