@@ -1,6 +1,9 @@
 def convert(info):
     info = str(info)
 
+    if len(info) == 0:
+        return ""
+
     if info[0].isalpha():
         return info.lower()
     
